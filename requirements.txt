@@ -3,5 +3,11 @@ Django
 django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
-Pillow
+firebase-admin
+email-validator
 pymysql
+Pillow
+whitenoise
+django-jet-reboot
+feedparser
+gunicorn
