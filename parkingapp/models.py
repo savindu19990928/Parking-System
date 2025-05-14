@@ -40,13 +40,6 @@ class ParkingSlot(models.Model):
             return f"Slot {self.slot_number} (Owner: {self.owner.name})"
         return f"Slot {self.slot_number}"
 
-class EmployeeCar(models.Model):
-    id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="cars")
-
-    def __str__(self):
-        return f"{self.employee.name if self.employee else 'Unassigned'}"
-
 
 class OutsiderCar(models.Model):
     id = models.AutoField(primary_key=True)
@@ -60,7 +53,7 @@ class ParkingRecord(models.Model):
     id = models.AutoField(primary_key=True)
     parking_slot = models.ForeignKey(ParkingSlot, on_delete=models.SET_NULL, null=True)
     car_type = models.ForeignKey(CarType, on_delete=models.SET_NULL, null=True, blank=True)
-    employee_car = models.ForeignKey(EmployeeCar, on_delete=models.SET_NULL, null=True, blank=True)
+    employee_car = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
     outsider_car = models.ForeignKey(OutsiderCar, on_delete=models.SET_NULL, null=True, blank=True)
     parked_at = models.DateTimeField(auto_now_add=True)
     removed_at = models.DateTimeField(null=True, blank=True)

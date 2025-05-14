@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import CarType, Company, ParkingSlot, Employee, EmployeeCar, OutsiderCar, ParkingRecord
+from .models import CarType, Company, ParkingSlot, Employee, OutsiderCar, ParkingRecord
 
+admin.site.site_header = "Parking System"
+admin.site.site_title = "Parking System"
+admin.site.index_title = "Welcome to Parking System Admin Dashboard"
 
 def get_fields_without_id(model, field_type_filter=None):
     fields = [f.name for f in model._meta.fields if f.name != 'id']
@@ -33,12 +36,6 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_display = get_fields_without_id(Employee)
     search_fields = get_fields_without_id(Employee, ['CharField'])
     list_filter = get_fields_without_id(Employee)
-
-
-@admin.register(EmployeeCar)
-class EmployeeCarAdmin(admin.ModelAdmin):
-    list_display = get_fields_without_id(EmployeeCar)
-    search_fields = get_fields_without_id(EmployeeCar, ['CharField'])
 
 
 @admin.register(OutsiderCar)
