@@ -42,6 +42,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'corsheaders',
     'parkingapp',
 ]
@@ -98,32 +101,11 @@ REST_FRAMEWORK = {
         'user': '1000/minute' 
     },
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=31),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=31),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': 'martapp@Devrious@45',
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-    'JTI_CLAIM': 'jti',
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=31),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=31),
-}
 
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True

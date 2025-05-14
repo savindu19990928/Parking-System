@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CarType, Company, ParkingSlot, Employee, OutsiderCar, ParkingRecord
+from .models import CarType, Company, ParkingSlot, Employee, OutsiderCar, ParkingRecord, Price
 
 admin.site.site_header = "Parking System"
 admin.site.site_title = "Parking System"
@@ -15,7 +15,6 @@ def get_fields_without_id(model, field_type_filter=None):
 @admin.register(CarType)
 class CarTypeAdmin(admin.ModelAdmin):
     list_display = get_fields_without_id(CarType)
-    search_fields = get_fields_without_id(CarType, ['CharField'])
 
 
 @admin.register(Company)
@@ -49,3 +48,5 @@ class ParkingRecordAdmin(admin.ModelAdmin):
     list_display = get_fields_without_id(ParkingRecord)
     search_fields = get_fields_without_id(ParkingRecord, ['CharField'])
     list_filter = get_fields_without_id(ParkingRecord)
+
+admin.site.register(Price)
