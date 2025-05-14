@@ -107,7 +107,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=31),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=31),
-    'ROTATE_REFRESH_TOKENS': True,
+    'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': 'martapp@Devrious@45',
