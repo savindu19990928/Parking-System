@@ -1,0 +1,27 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block content %}
+  {{ block.super }}
+  <hr>
+  <form method="get" action="{% url 'admin:download_parking_json' original.id %}" 
+        style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px;">
+  
+      <label for="start" style="font-weight: 600; font-size: 14px; color: #3a3f51; min-width: 90px;">
+        Start Date:
+      </label>
+      <input type="date" id="start" name="start_date" 
+             style="flex: 1 1 180px; min-width: 150px; padding: 6px 8px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  
+      <label for="end" style="font-weight: 600; font-size: 14px; color: #3a3f51; min-width: 90px;">
+        End Date:
+      </label>
+      <input type="date" id="end" name="end_date" 
+             style="flex: 1 1 180px; min-width: 150px; padding: 6px 8px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  
+      <button type="submit" 
+              style="background-color: #5a86ff; border: none; color: white; font-weight: 600; font-size: 14px; padding: 6px 14px; border-radius: 4px; cursor: pointer; flex-shrink: 0;">
+        Download Invoice
+      </button>
+  </form>  
+{% endblock %}

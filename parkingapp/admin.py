@@ -1,5 +1,12 @@
 from django.contrib import admin
 from .models import CarType, Company, ParkingSlot, Employee, OutsiderCar, ParkingRecord, Price
+from django.urls import path
+from django.http import JsonResponse, HttpResponse
+from django.utils.dateparse import parse_date
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .serializers import ParkingRecordSerializer
+import json
 
 admin.site.site_header = "Parking System"
 admin.site.site_title = "Parking System"
@@ -21,6 +28,43 @@ class CarTypeAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     list_display = get_fields_without_id(Company)
     search_fields = get_fields_without_id(Company, ['CharField'])
+    
+    change_form_template = "companyadmin.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                '<int:company_id>/download-parking-json/',
+                self.admin_site.admin_view(self.download_parking_json),
+                name='download_parking_json',
+            ),
+        ]
+        return custom_urls + urls
+
+    @method_decorator(csrf_exempt)
+    def download_parking_json(self, request, company_id):
+        company = Company.objects.get(pk=company_id)
+
+        start_date = parse_date(request.GET.get("start_date", ""))
+        end_date = parse_date(request.GET.get("end_date", ""))
+
+        queryset = ParkingRecord.objects.filter(company=company, removed_at__isnull=False)
+        if start_date:
+            queryset = queryset.filter(parked_at__date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(parked_at__date__lte=end_date)
+
+        serializer = ParkingRecordSerializer(queryset, many=True)
+        json_data = json.dumps(serializer.data, indent=4)
+
+        response = HttpResponse(
+            json_data,
+            content_type="application/json"
+        )
+        filename = f"parking_records_{company.name.replace(' ', '_')}.json"
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
 
 
 @admin.register(ParkingSlot)
