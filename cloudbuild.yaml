@@ -5,22 +5,22 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build', 
-      '-t', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api:latest', 
+      '-t', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api', 
       '.'
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push', 
-      'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api:latest'
+      'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api'
     ]
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       [
-        'run', 'deploy', 'parking-api:latest',
-        '--image', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api:latest',
+        'run', 'deploy', 'parking-api',
+        '--image', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/cloud-run-source-deploy/parking-api',
         '--region', 'europe-west1',
         '--platform', 'managed',
         '--allow-unauthenticated',
