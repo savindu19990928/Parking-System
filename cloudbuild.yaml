@@ -5,14 +5,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build', 
-      '-t', 'us-central1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api', 
+      '-t', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api', 
       '.'
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push', 
-      'us-central1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api'
+      'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api'
     ]
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -20,8 +20,8 @@ steps:
     args:
       [
         'run', 'deploy', 'parking-api',
-        '--image', 'us-central1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api',
-        '--region', 'us-central1',
+        '--image', 'europe-west1-docker.pkg.dev/chrome-mediator-459217-f3/parking-api',
+        '--region', 'europe-west1',
         '--platform', 'managed',
         '--allow-unauthenticated',
         '--quiet'
