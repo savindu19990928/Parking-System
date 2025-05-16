@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -160,7 +160,7 @@ class CompanyNameListAPIView(APIView):
         return Response(list(company_names), status=status.HTTP_200_OK)
 
 class EmployeeNameListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     
     def get(self, request):
         try:

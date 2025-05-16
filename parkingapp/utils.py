@@ -36,7 +36,7 @@ def generate_report_from_json(file_name: str, data: dict, parameters: dict = Non
             db_connection={
                 'data_file': json_file_path,
                 'data_type': 'json',
-                'json_query': 'data'  # adjust if your root JSON node is different
+                'json_query': 'data'
             }
         )
         jasper.process_report()
