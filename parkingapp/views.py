@@ -119,16 +119,7 @@ class ParkingRecordCreateAPIView(APIView):
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        response_data = {
-            "id": record.id,
-            "date": now().date(),
-            "parked_at": record.parked_at
-        }
-
-        if has_dedicated_slot:
-            response_data["slot_number"] = slot_number
-
-        return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(f"Parking ticket\nTicket number: {record.id}\nEntered time: {record.parked_at.strftime("%B %d, %Y, %I:%M %p")}", status=status.HTTP_201_CREATED)
 
 class ParkingSlotStatusView(APIView):
     permission_classes = [IsAuthenticated]  # Optional
@@ -141,9 +132,9 @@ class ParkingSlotStatusView(APIView):
         
         
         if available_slots >= company.slot_limit:
-            return Response({"error": f"All {company.slot_limit} slots for {company.name} are occupied."})
+            return Response([f"All {company.slot_limit} slots for {company.name} are occupied."], status=status.HTTP_403_FORBIDDEN)
         else:
-            return  Response(status=status.HTTP_200_OK)
+            return  Response(["Approved"],status=status.HTTP_200_OK)
 
 class CarTypeNameListAPIView(APIView):
     permission_classes = [IsAuthenticated]
