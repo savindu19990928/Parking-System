@@ -6,8 +6,10 @@ from django.utils.dateparse import parse_date
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import ParkingRecordSerializer
-from .utils import generate_report_from_json
-import json
+from .utils import generate_remote_report
+import os
+import math
+from django.conf import settings
 
 admin.site.site_header = "Parking System"
 admin.site.site_title = "Parking System"
@@ -58,16 +60,25 @@ class CompanyAdmin(admin.ModelAdmin):
 
         serializer = ParkingRecordSerializer(queryset, many=True)
         
-        nested_data = {
-            company.name: serializer.data
-        }
-
-        # json_data = json.dumps(nested_data, indent=4)
+        price = Price.objects.first()
+        
+        total_duration_seconds = sum(
+            (record.removed_at - record.parked_at).total_seconds()
+            for record in queryset
+            if record.parked_at and record.removed_at
+        )
+        total_duration_hours = math.ceil(total_duration_seconds / 3600)
         
         parameters = {
-             "Parameter1": company.name
-            }
-        pdf_buffer = generate_report_from_json("Invoice.jasper", nested_data, parameters)
+            "Parameter1": company.name,
+            "Parameter2": str(price.price),
+            "Parameter3": str(total_duration_hours),
+            "Parameter4": str(total_duration_hours*price.price)
+        }
+        
+        root_dir = settings.BASE_DIR  
+        jasper_path = os.path.join(root_dir, 'reports', 'Invoice.jasper')
+        pdf_buffer = generate_remote_report("https://jasper-522049904205.europe-west1.run.app/report/pdf", jasper_path, serializer.data, parameters)
         return HttpResponse(pdf_buffer, content_type='application/pdf')
 
 @admin.register(ParkingSlot)

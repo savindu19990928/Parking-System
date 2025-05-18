@@ -9,6 +9,5 @@ pymysql
 Pillow
 whitenoise
 django-jet-reboot
-pyreportjasper
 feedparser
 gunicorn
