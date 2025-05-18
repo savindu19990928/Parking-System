@@ -5,7 +5,7 @@ from .models import ParkingRecord, CarType, Employee, OutsiderCar, Company
 class CarTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarType
-        fields = ['id', 'name']
+        fields = ['name']
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ['id', 'name', 'company', 'car_type']
+        fields = ['name']
 
 
 class OutsiderCarSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class OutsiderCarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OutsiderCar
-        fields = ['id', 'car_type', 'company']
+        fields = ['id']
 
 
 class ParkingRecordSerializer(serializers.ModelSerializer):
