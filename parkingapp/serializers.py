@@ -12,7 +12,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class ParkingRecordSerializer(serializers.ModelSerializer):
     car_type_name = serializers.CharField(source='car_type.name', read_only=True)
-    employee_car_name = serializers.CharField(source='employee_car.name', read_only=True)
+    employee_car_name = serializers.SerializerMethodField()
     outsider_car_id = serializers.CharField(source='outsider_car.id', read_only=True)
     company = CompanySerializer()
     parked_at = serializers.SerializerMethodField()
@@ -32,21 +32,20 @@ class ParkingRecordSerializer(serializers.ModelSerializer):
             'duration_hours',
         ]
 
+    def get_employee_car_name(self, obj):
+        return obj.employee_car.name if obj.employee_car and obj.employee_car.name else " "
+
     def get_parked_at(self, obj):
-        if obj.parked_at:
-            return date_format(localtime(obj.parked_at), 'M d, Y h:i A')
-        return ""
+        return date_format(localtime(obj.parked_at), 'M d, Y h:i A') if obj.parked_at else " "
 
     def get_removed_at(self, obj):
-        if obj.removed_at:
-            return date_format(localtime(obj.removed_at), 'M d, Y h:i A')
-        return ""
+        return date_format(localtime(obj.removed_at), 'M d, Y h:i A') if obj.removed_at else " "
 
     def get_duration_hours(self, obj):
         if obj.parked_at and obj.removed_at:
             delta = obj.removed_at - obj.parked_at
             return round(delta.total_seconds() / 3600, 2)
-        return ""
+        return " "
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -54,8 +53,6 @@ class ParkingRecordSerializer(serializers.ModelSerializer):
             if value is None:
                 rep[key] = " "
             elif isinstance(value, dict):
-                rep[key] = {
-                    k: (" " if v is None else v)
-                    for k, v in value.items()
-                }
+                rep[key] = {k: (" " if v is None else v) for k, v in value.items()}
+
         return rep
