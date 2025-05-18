@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import ParkingRecordSerializer
+from .utils import generate_report_from_json
 import json
 
 admin.site.site_header = "Parking System"
@@ -62,14 +63,12 @@ class CompanyAdmin(admin.ModelAdmin):
         }
 
         json_data = json.dumps(nested_data, indent=4)
-
-        response = HttpResponse(
-            json_data,
-            content_type="application/json"
-        )
-        filename = f"parking_records_{company.name.replace(' ', '_')}.json"
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
-        return response
+        
+        parameters = {
+             "Parameter1": company.name
+            }
+        pdf_buffer = generate_report_from_json("Invoice.jasper", json_data, parameters)
+        return HttpResponse(pdf_buffer, content_type='application/pdf')
 
 @admin.register(ParkingSlot)
 class ParkingSlotAdmin(admin.ModelAdmin):
