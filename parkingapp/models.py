@@ -1,6 +1,5 @@
 from django.db import models
 from django.forms import ValidationError
-from django.utils.timezone import now
 
 
 class CarType(models.Model):
