@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import CarType, Company, ParkingSlot, Employee, OutsiderCar, ParkingRecord, Price
 from django.urls import path
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.utils.dateparse import parse_date
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -56,7 +56,12 @@ class CompanyAdmin(admin.ModelAdmin):
             queryset = queryset.filter(parked_at__date__lte=end_date)
 
         serializer = ParkingRecordSerializer(queryset, many=True)
-        json_data = json.dumps(serializer.data, indent=4)
+        
+        nested_data = {
+            company.name: serializer.data
+        }
+
+        json_data = json.dumps(nested_data, indent=4)
 
         response = HttpResponse(
             json_data,
@@ -65,7 +70,6 @@ class CompanyAdmin(admin.ModelAdmin):
         filename = f"parking_records_{company.name.replace(' ', '_')}.json"
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
         return response
-
 
 @admin.register(ParkingSlot)
 class ParkingSlotAdmin(admin.ModelAdmin):
