@@ -52,10 +52,10 @@ class ParkingRecordSerializer(serializers.ModelSerializer):
         rep = super().to_representation(instance)
         for key, value in rep.items():
             if value is None:
-                rep[key] = ""
+                rep[key] = " "
             elif isinstance(value, dict):
                 rep[key] = {
-                    k: ("" if v is None else v)
+                    k: (" " if v is None else v)
                     for k, v in value.items()
                 }
         return rep
