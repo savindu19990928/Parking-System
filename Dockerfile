@@ -5,6 +5,14 @@ FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Install Java
+RUN apt-get update && apt-get install -y openjdk-11-jdk && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
 # Create a working directory
 WORKDIR /app
 
