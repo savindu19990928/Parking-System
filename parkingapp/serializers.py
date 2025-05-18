@@ -35,8 +35,8 @@ class ParkingRecordSerializer(serializers.ModelSerializer):
     def get_employee_car_name(self, obj):
         return obj.employee_car.name if obj.employee_car and obj.employee_car.name else " "
     
-    def get_outsider_car_id(self, obj):
-        return "Yes" if obj.outsider_car and obj.outsider_car.id else "No"
+    def get_car_type_name(self, obj):
+        return obj.car_type_name.name if obj.car_type_name and obj.car_type_name.name else " "
 
     def get_parked_at(self, obj):
         return date_format(localtime(obj.parked_at), 'M d, Y h:i A') if obj.parked_at else " "
