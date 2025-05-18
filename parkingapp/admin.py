@@ -78,7 +78,7 @@ class CompanyAdmin(admin.ModelAdmin):
         
         root_dir = settings.BASE_DIR  
         jasper_path = os.path.join(root_dir, 'reports', 'Invoice.jasper')
-        pdf_buffer = generate_remote_report("https://jasper-522049904205.europe-west1.run.app/report/pdf", jasper_path, serializer.data, parameters)
+        pdf_buffer = generate_remote_report("https://jasper-522049904205.europe-west1.run.app/report/pdf/", jasper_path, serializer.data, parameters)
         return HttpResponse(pdf_buffer, content_type='application/pdf')
 
 @admin.register(ParkingSlot)
