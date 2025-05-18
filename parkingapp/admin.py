@@ -62,12 +62,12 @@ class CompanyAdmin(admin.ModelAdmin):
             company.name: serializer.data
         }
 
-        json_data = json.dumps(nested_data, indent=4)
+        # json_data = json.dumps(nested_data, indent=4)
         
         parameters = {
              "Parameter1": company.name
             }
-        pdf_buffer = generate_report_from_json("Invoice.jrxml", json_data, parameters)
+        pdf_buffer = generate_report_from_json("Invoice.jasper", nested_data, parameters)
         return HttpResponse(pdf_buffer, content_type='application/pdf')
 
 @admin.register(ParkingSlot)
