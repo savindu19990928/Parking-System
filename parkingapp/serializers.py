@@ -15,8 +15,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    company = CompanySerializer()
-    car_type = CarTypeSerializer()
 
     class Meta:
         model = Employee
@@ -24,8 +22,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class OutsiderCarSerializer(serializers.ModelSerializer):
-    car_type = CarTypeSerializer()
-    company = CompanySerializer()
 
     class Meta:
         model = OutsiderCar
