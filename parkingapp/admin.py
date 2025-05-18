@@ -67,7 +67,7 @@ class CompanyAdmin(admin.ModelAdmin):
         parameters = {
              "Parameter1": company.name
             }
-        pdf_buffer = generate_report_from_json("Invoice.jasper", nested_data, parameters)
+        pdf_buffer = generate_report_from_json("Invoice.jrxml", nested_data, parameters)
         return HttpResponse(pdf_buffer, content_type='application/pdf')
 
 @admin.register(ParkingSlot)
