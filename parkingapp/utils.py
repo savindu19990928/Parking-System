@@ -30,7 +30,7 @@ def generate_remote_report(
         # 👇 Include logo if provided
         if logo_file_path:
             with open(logo_file_path, 'rb') as logo_file:
-                files['logo'] = (os.path.basename(logo_file_path), logo_file, 'image/jpg')
+                files['logo'] = (os.path.basename(logo_file_path), logo_file, 'image/jpeg')
 
                 # Send request with logo
                 response = requests.post(endpoint_url, files=files, data=parameters or {}, timeout=timeout)
