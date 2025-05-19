@@ -11,7 +11,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class ParkingRecordSerializer(serializers.ModelSerializer):
-    car_type_name = serializers.CharField(source='car_type.name', read_only=True)
+    car_type_name = serializers.SerializerMethodField()
     employee_car_name = serializers.SerializerMethodField()
     outsider_car_id = serializers.CharField(source='outsider_car.id', read_only=True)
     company = CompanySerializer()
@@ -36,7 +36,7 @@ class ParkingRecordSerializer(serializers.ModelSerializer):
         return obj.employee_car.name if obj.employee_car and obj.employee_car.name else " "
     
     def get_car_type_name(self, obj):
-        return obj.car_type_name.name if obj.car_type_name and obj.car_type_name.name else " "
+        return obj.car_type.name if obj.car_type and obj.car_type.name else " "
 
     def get_parked_at(self, obj):
         return date_format(localtime(obj.parked_at), 'M d, Y h:i A') if obj.parked_at else " "
