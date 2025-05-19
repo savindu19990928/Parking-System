@@ -31,7 +31,6 @@ def generate_remote_report(
         data_fields = parameters or {}
 
         response = requests.post(endpoint_url, files=files, data=data_fields, timeout=timeout)
-        print("RESPONSE TEXT:", response.text)
         response.raise_for_status()
 
         if 'application/pdf' not in response.headers.get('Content-Type', ''):
